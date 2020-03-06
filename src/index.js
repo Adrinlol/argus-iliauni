@@ -1,12 +1,25 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
+import React, { Fragment, useState } from "react";
+import ReactDOM from "react-dom";
+import { BrowserRouter } from "react-router-dom";
+import { AuthContext } from "./components/context/auth";
+import Router from "./router";
 
-ReactDOM.render(<App />, document.getElementById('root'));
+const App = () => {
+  const [authTokens, setAuthTokens] = useState();
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
+  const setTokens = data => {
+    setAuthTokens(data);
+  };
+
+  return (
+    <Fragment>
+      <BrowserRouter>
+        <AuthContext.Provider value={{ authTokens, setAuthTokens: setTokens }}>
+          <Router />
+        </AuthContext.Provider>
+      </BrowserRouter>
+    </Fragment>
+  );
+};
+
+ReactDOM.render(<App />, document.getElementById("root"));
